@@ -70,7 +70,7 @@ const MenuItem = styled.div`
 
 const Navbar = () => {
   const navigate = useNavigate()
-  const user = true
+  const user = false
   
 
   return (
@@ -95,7 +95,7 @@ const Navbar = () => {
            <MenuItem onClick={() => navigate('/login')}>Sign In</MenuItem>) 
           }
           <MenuItem onClick={() => navigate("/cart")}>
-            <Badge badgeContent={4} color="secondary">
+            <Badge badgeContent={2} color="secondary">
               <ShoppingCartOutlined color="action" />
             </Badge>
           </MenuItem>

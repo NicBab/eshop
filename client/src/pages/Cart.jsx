@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import { Add, Remove } from "@material-ui/icons";
 import { Navbar, Announcement, Footer } from "../components/index";
 import { mobile } from "../responsive";
 import StripeCheckout from "react-stripe-checkout";
-
 const KEY = "pk_test_51L0Sf4JXC8zrC0xK8KB4pfpumAGPlY6GPooBO4PqCTl5vBYaknqMTOxZwnl3ka2RSAeZjvQ1T1mfueBUcl2Cc80N00iZ9atqsh"
-
 const axios = require('axios').default;
 
 
@@ -165,7 +163,7 @@ const Cart = () => {
   
   const [stripeToken, setStripeToken] = useState(null);
   const onToken = (token) => {
-    console.log(token, "token**");
+    setStripeToken(token)
   };
 
   useEffect(() => {
@@ -274,8 +272,7 @@ const Cart = () => {
               <SummaryItemText></SummaryItemText>
               <SummaryItemPrice>$80</SummaryItemPrice>
             </SummaryItem>
-
-       
+            
                      <StripeCheckout
                      name="My Shop"
                      image=""

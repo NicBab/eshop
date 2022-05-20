@@ -19,7 +19,7 @@ const Products = ({cat, filters, sort}) => {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const res = await fetch(
+        const res = await axios(
            "http://localhost:3000/api/product/"
         );
         console.log(res)
