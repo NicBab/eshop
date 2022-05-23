@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import { Add, Remove } from "@material-ui/icons";
 import { Navbar, Announcement, Footer } from "../components/index";
@@ -160,7 +160,7 @@ const CheckoutButton = styled.button`
 `;
 
 const Cart = () => {
-  
+  const navigate = useNavigate()
   const [stripeToken, setStripeToken] = useState(null);
   const onToken = (token) => {
     setStripeToken(token)
@@ -177,13 +177,13 @@ const Cart = () => {
           }
         );
         console.log(res.data)
-        
+        // navigate("/success") navigate
       } catch (err) {
         console.log(err);
       }
     };
     stripeToken && makeRequest()
-  }, [stripeToken]);
+  }, [stripeToken ]);
 
   return (
     <Container>
@@ -272,20 +272,22 @@ const Cart = () => {
               <SummaryItemText></SummaryItemText>
               <SummaryItemPrice>$80</SummaryItemPrice>
             </SummaryItem>
+
+            {stripeToken ? (<span>Processing...Please Wait!</span>) :(
+               <StripeCheckout
+               name="My Shop"
+               image=""
+               billingAddress
+               shippingAddress
+               description="Your total is $20" //{`Your total is $${cart.total}`}
+               amount={2000} //cart.total * 100
+               token={onToken}
+               stripeKey={KEY}
+             >
+               <CheckoutButton>CHECKOUT NOW</CheckoutButton>
+             </StripeCheckout>
+            )}
             
-                     <StripeCheckout
-                     name="My Shop"
-                     image=""
-                     billingAddress
-                     shippingAddress
-                     description="Your total is $20" //{`Your total is $${cart.total}`}
-                     amount={2000} //cart.total * 100
-                     token={onToken}
-                     stripeKey={KEY}
-                   >
-                     <CheckoutButton>CHECKOUT NOW</CheckoutButton>
-                   </StripeCheckout>
-          
           </Summary>
         </Bottom>
       </Wrapper>

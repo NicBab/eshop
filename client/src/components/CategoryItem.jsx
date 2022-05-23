@@ -42,17 +42,21 @@ const Button = styled.button`
   color: grey;
   font-weight: 600;
   cursor: pointer;
+
+  &:hover {
+    color: yellow;
+  }
 `;
 
 const CategoryItem = ({ item }) => {
   return (
     <Container>
       <Link to={`/products/${item.cat}`}>
-      <Image src={item.img} />
-      <Info>
-        <Title>{item.title}</Title>
-        <Button>SHOP NOW</Button>
-      </Info>
+        <Image src={item.img} />
+        <Info>
+          <Title>{item.title}</Title>
+          <Button>SHOP NOW</Button>
+        </Info>
       </Link>
     </Container>
   );
