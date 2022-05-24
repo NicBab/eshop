@@ -6,8 +6,7 @@ import { Navbar, Announcement, Footer } from "../components/index";
 import { mobile } from "../responsive";
 import StripeCheckout from "react-stripe-checkout";
 import { useSelector } from "react-redux";
-const KEY = process.env.STRIPE_PUBLISHABLE_KEY 
- 
+const KEY = process.env.STRIPE_PUBLISHABLE_KEY;
 const axios = require("axios").default;
 
 const Container = styled.div``;
@@ -179,13 +178,16 @@ const Cart = () => {
           }
         );
         console.log(res.data);
-        // navigate("/success") navigate
+        navigate("/success", {
+          stripeData: res.data,
+          products: cart,
+        });
       } catch (err) {
         console.log(err);
       }
     };
     stripeToken && makeRequest();
-  }, [stripeToken]);
+  }, [stripeToken, cart, navigate]);
 
   return (
     <Container>
@@ -206,17 +208,20 @@ const Cart = () => {
             {cart.products.map((product) => (
               <Product>
                 <ProductDetail>
-                  <Image src={product.img}/>
+                  <Image src={product.img} />
                   <Details>
                     <ProductName>
-                      <b>Product:</b>{product.title}
+                      <b>Product:</b>
+                      {product.title}
                     </ProductName>
                     <ProductId>
-                      <b>Id:</b>{product.id}
+                      <b>Id:</b>
+                      {product._id}
                     </ProductId>
                     <ProductColor color={product.color} />
                     <ProductSize>
-                      <b>Size:</b>{product.size}
+                      <b>Size:</b>
+                      {product.size}
                     </ProductSize>
                   </Details>
                 </ProductDetail>
@@ -226,7 +231,9 @@ const Cart = () => {
                     <ProductAmount>{product.quantity}</ProductAmount>
                     <Remove />
                   </ProductAmountContainer>
-                  <ProductPrice>$ {product.price * product.quantity}</ProductPrice>
+                  <ProductPrice>
+                    $ {product.price * product.quantity}
+                  </ProductPrice>
                 </PriceDetail>
               </Product>
             ))}
@@ -260,8 +267,8 @@ const Cart = () => {
                 image=""
                 billingAddress
                 shippingAddress
-                description="Your total is $20" //{`Your total is $${cart.total}`}
-                amount={2000} //cart.total * 100
+                description={`Your total is $${cart.total}`}
+                amount={cart.total * 100}
                 token={onToken}
                 stripeKey={KEY}
               >
