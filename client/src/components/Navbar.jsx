@@ -1,9 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Search, ShoppingCartOutlined } from "@material-ui/icons";
 import { Badge } from "@material-ui/core";
 import { mobile } from "../responsive";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   height: 60px;
@@ -69,9 +71,9 @@ const MenuItem = styled.div`
 `;
 
 const Navbar = () => {
-  const navigate = useNavigate()
-  const user = false
-  
+  const navigate = useNavigate();
+  const quantity = useSelector((state) => state.cart.quantity);
+  const user = false;
 
   return (
     <Container>
@@ -86,21 +88,17 @@ const Navbar = () => {
         <Center>
           <Logo>MERN</Logo>
         </Center>
-
         <Right>
-          {user ? 
-          (<MenuItem onClick={() => navigate("/")}>Logout</MenuItem>) 
-          : 
-          (<MenuItem onClick={() => navigate('/register')}>Register</MenuItem>,
-           <MenuItem onClick={() => navigate('/login')}>Sign In</MenuItem>) 
-          }
-          <MenuItem onClick={() => navigate("/cart")}>
-            <Badge badgeContent={2} color="secondary">
-              <ShoppingCartOutlined color="action" />
-            </Badge>
-          </MenuItem>
+          <MenuItem>Logout</MenuItem>
+          <MenuItem>Register</MenuItem>,<MenuItem>Sign In</MenuItem>
+          <Link to="/cart">
+            <MenuItem>
+              <Badge badgeContent={quantity} color="secondary">
+                <ShoppingCartOutlined color="action" />
+              </Badge>
+            </MenuItem>
+          </Link>
         </Right>
-        
       </Wrapper>
     </Container>
   );
