@@ -6,7 +6,8 @@ import { Navbar, Announcement, Footer } from "../components/index";
 import { mobile } from "../responsive";
 import StripeCheckout from "react-stripe-checkout";
 import { useSelector } from "react-redux";
-const KEY = process.env.STRIPE_PUBLISHABLE_KEY;
+// const KEY = process.env.STRIPE_PUBLISHABLE_KEY;
+const KEY = "pk_test_51L0Sf4JXC8zrC0xK8KB4pfpumAGPlY6GPooBO4PqCTl5vBYaknqMTOxZwnl3ka2RSAeZjvQ1T1mfueBUcl2Cc80N00iZ9atqsh";
 const axios = require("axios").default;
 
 const Container = styled.div``;
