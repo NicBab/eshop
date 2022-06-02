@@ -1,9 +1,13 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Success = () => {
-  const location = useLocation()
-  console.log(location)
+  // const location = useLocation()
+  let navigate = useNavigate();
+ const goHome = () => {
+   navigate("/")
+ }
+
   return (
     <div
       style={{
@@ -14,7 +18,7 @@ const Success = () => {
         justifyContent: "center",
       }}
     >
-      <button navigate to="/" style={{ padding: 10, marginTop: 20 }}>
+      <button onClick={goHome} style={{ padding: 10, marginTop: 20 }}>
         Go to Homepage
       </button>
     </div>
