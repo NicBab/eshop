@@ -37,7 +37,7 @@ const Title = styled.h1`
   font-weight: 200;
 `;
 
-const Desc = styled.div`
+const Description = styled.div`
   margin: 20px 0px;
 `;
 
@@ -161,7 +161,7 @@ const Product = () => {
         </ImgContainer>
         <InfoContainer>
           <Title>{product.title}</Title>
-          <Desc>{product.desc}</Desc>
+          <Description>{product.description}</Description>
           <Price>$ {product.price}</Price>
           <FilterContainer>
             <Filter>
