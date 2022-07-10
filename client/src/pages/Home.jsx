@@ -12,13 +12,10 @@ import {
 const Home = () => {
   return (
     <div>
-      <Navbar />
       <Announcement />
       <Slider />
       <Categories />
       <Products />
-      <Newsletter />
-      <Footer />
     </div>
   );
 };

@@ -5,9 +5,15 @@ import { Add, Remove } from "@material-ui/icons";
 import { Navbar, Announcement, Footer } from "../components/index";
 import { mobile } from "../responsive";
 import StripeCheckout from "react-stripe-checkout";
-import { useSelector } from "react-redux";
-// const KEY = process.env.STRIPE_PUBLISHABLE_KEY;
-const KEY = "pk_test_51L0Sf4JXC8zrC0xK8KB4pfpumAGPlY6GPooBO4PqCTl5vBYaknqMTOxZwnl3ka2RSAeZjvQ1T1mfueBUcl2Cc80N00iZ9atqsh";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  decreaseCartQty,
+  addToCart,
+  removeFromCart,
+  clearCart,
+  getTotals
+} from "../redux/cartRedux";
+const KEY = process.env.STRIPE_PUBLISHABLE_KEY;
 const axios = require("axios").default;
 
 const Container = styled.div``;
@@ -44,7 +50,7 @@ const TopTexts = styled.div`
 `;
 
 const TopText = styled.span`
-  text-decoration: underline;
+  text-decoration: none;
   margin: 0px 10px;
   cursor: pointer;
 `;
@@ -150,6 +156,11 @@ const SummaryItemText = styled.span``;
 
 const SummaryItemPrice = styled.span``;
 
+const RemoveItem = styled.div`
+  cursor: pointer;
+  text-decoration: underline;
+`;
+
 const CheckoutButton = styled.button`
   width: 100%;
   padding: 10px;
@@ -160,10 +171,23 @@ const CheckoutButton = styled.button`
   cursor: pointer;
 `;
 
+const ClearCartButton = styled.button`
+  width: 100%;
+  padding: 10px;
+  background-color: #88d8c0;
+  color: white;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+`;
+
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const navigate = useNavigate();
   const [stripeToken, setStripeToken] = useState(null);
+  const dispatch = useDispatch();
+  const [total, setTotal] = useState(0);
   const onToken = (token) => {
     setStripeToken(token);
   };
@@ -190,14 +214,37 @@ const Cart = () => {
     stripeToken && makeRequest();
   }, [stripeToken, cart, navigate]);
 
+  useEffect(() => {
+    dispatch(getTotals())
+  }, [cart, dispatch])
+
+  const handleIncreaseCartQty = (cartItem) => {
+    dispatch(addToCart(cartItem));
+  };
+
+  const handleDecreaseCartQty = (cartItem) => {
+    dispatch(decreaseCartQty(cartItem));
+  };
+
+  const handleRemoveItem = (item) => {
+    dispatch(removeFromCart({ ...item }));
+  };
+
+  const handleClearCart = () => {
+    dispatch(clearCart());
+  };
+
   return (
     <Container>
-      <Navbar />
       <Announcement />
       <Wrapper>
         <Title>Your Cart</Title>
         <Top>
-          <TopButton>Continue Shopping</TopButton>
+          <TopButton
+            style={{ backgroundColor: "#88d8c0", borderRadius: "10px" }}
+          >
+            Continue Shopping
+          </TopButton>
           <TopTexts>
             <TopText>Shopping Bag(2)</TopText>
             <TopText>Wishlist(0)</TopText>
@@ -206,35 +253,44 @@ const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            {cart.products.map((product) => (
+            {cart.cartItems.map((item) => (
               <Product>
                 <ProductDetail>
-                  <Image src={product.img} />
+                  <Image src={item.img} />
                   <Details>
                     <ProductName>
                       <b>Product:</b>
-                      {product.title}
+                      {item.title}
                     </ProductName>
                     <ProductId>
                       <b>Id:</b>
-                      {product._id}
+                      {item._id}
                     </ProductId>
-                    <ProductColor color={product.color} />
+                    <ProductColor color={item.color} />
                     <ProductSize>
                       <b>Size:</b>
-                      {product.size}
+                      {item.size}
                     </ProductSize>
                   </Details>
                 </ProductDetail>
                 <PriceDetail>
                   <ProductAmountContainer>
-                    <Add />
-                    <ProductAmount>{product.quantity}</ProductAmount>
-                    <Remove />
+                  <Remove
+                      onClick={() => handleDecreaseCartQty(item)}
+                      style={{ cursor: "pointer" }}
+                    />
+                    <ProductAmount>{item.cartQuantity}</ProductAmount>
+                          <Add
+                      onClick={() => handleIncreaseCartQty(item)}
+                      style={{ cursor: "pointer" }}
+                    />
                   </ProductAmountContainer>
                   <ProductPrice>
-                    $ {product.price * product.quantity}
+                    $ {item.price * item.cartQuantity}
                   </ProductPrice>
+                  <RemoveItem onClick={() => handleRemoveItem(item)}>
+                    Remove
+                  </RemoveItem>
                 </PriceDetail>
               </Product>
             ))}
@@ -244,7 +300,7 @@ const Cart = () => {
             <SummaryTitle>Order Summary</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+              <SummaryItemPrice>$ {cart.cartTotalAmount}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -257,7 +313,7 @@ const Cart = () => {
             <SummaryItem type="total">
               Total
               <SummaryItemText></SummaryItemText>
-              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
+              <SummaryItemPrice>$ {cart.cartTotalAmount}</SummaryItemPrice>
             </SummaryItem>
 
             {stripeToken ? (
@@ -276,10 +332,12 @@ const Cart = () => {
                 <CheckoutButton>CHECKOUT NOW</CheckoutButton>
               </StripeCheckout>
             )}
+            <ClearCartButton onClick={() => handleClearCart()}>
+              CLEAR CART
+            </ClearCartButton>
           </Summary>
         </Bottom>
       </Wrapper>
-      <Footer />
     </Container>
   );
 };

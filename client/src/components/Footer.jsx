@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
+import { Newsletter } from "../components/index";
 import {
   Facebook,
   Instagram,
@@ -12,6 +13,9 @@ import {
 
 const Container = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  height: 50vh;
+  background-color: #c2fff0;
   ${mobile({ flexDirection: "column" })}
 `;
 
@@ -91,9 +95,16 @@ const Payment = styled.img`
   width: 50%;
 `;
 
+const Top = styled.div`
+  width: 100vw;
+`;
+
 const Footer = () => {
   return (
     <Container>
+      <Top>
+        <Newsletter />
+      </Top>
       <Left>
         <Logo>Stellar Innovation</Logo>
         <Description>This is my eCommerce portfolio project</Description>

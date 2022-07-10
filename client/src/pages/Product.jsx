@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Add, Remove } from "@material-ui/icons";
-import { Navbar, Announcement, Newsletter, Footer } from "../components/index";
+import { Announcement } from "../components/index";
 import { mobile } from "../responsive";
 import { useLocation } from "react-router-dom";
 import { publicRequest } from "../requestMethods";
-import { addProduct } from "../redux/cartRedux";
+import { addToCart } from "../redux/cartRedux";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux"
+import Cart from "./Cart";
 
 const Container = styled.div``;
 
@@ -119,9 +121,10 @@ const Button = styled.button`
 `;
 
 const Product = () => {
+  const cart = useSelector((state) => state.cart);
   const location = useLocation();
   const id = location.pathname.split("/")[2];
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
@@ -145,15 +148,14 @@ const Product = () => {
     }
   };
 
-  const handleClick = () => {
+  const handleAddToCart = (product) => {
     dispatch(
-      addProduct({ ...product, quantity, color, size })
+      addToCart({ ...product, quantity, color, size })
     )
   };
 
   return (
     <Container>
-      <Navbar />
       <Announcement />
       <Wrapper>
         <ImgContainer>
@@ -180,17 +182,15 @@ const Product = () => {
             </Filter>
           </FilterContainer>
           <AddContainer>
-            <AmountContainer>
+            {/* <AmountContainer>
               <Remove onClick={() => handleQuantity("dec")} />
               <Amount>{quantity}</Amount>
               <Add onClick={() => handleQuantity("inc")} />
-            </AmountContainer>
-            <Button onClick={()=> handleClick()}>Add to Cart</Button>
+            </AmountContainer> */}
+            <Button onClick={() => handleAddToCart(product)}>Add to Cart</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>
-      <Newsletter />
-      <Footer />
     </Container>
   );
 };

@@ -4,12 +4,13 @@ import { Send } from "@material-ui/icons";
 import { mobile } from "../responsive";
 
 const Container = styled.div`
-  height: 50vh;
+  height: 20vh;
   background-color: #fcf5f5;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  padding-bottom: 20px;
 `;
 
 const Title = styled.div`

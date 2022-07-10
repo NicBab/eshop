@@ -6,7 +6,7 @@ import { mobile } from '../responsive'
 
 const Container = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 80vh;
   display: flex;
   position: relative;
   overflow: hidden;
@@ -31,7 +31,7 @@ const Arrow = styled.div`
   z-index: 2;
 
   &:hover {
-    background-color: teal;
+    background-color: #88d8c0;
   }
 `;
 
@@ -84,7 +84,7 @@ const Button = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: teal;
+    background-color: #88d8c0;
   }
 `;
 

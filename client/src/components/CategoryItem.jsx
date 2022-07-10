@@ -37,6 +37,7 @@ const Title = styled.h1`
 
 const Button = styled.button`
   border: none;
+  border-radius: 10px;
   padding: 10px;
   background-color: white;
   color: grey;
@@ -44,7 +45,7 @@ const Button = styled.button`
   cursor: pointer;
 
   &:hover {
-    color: yellow;
+    background-color: #88d8c0;
   }
 `;
 

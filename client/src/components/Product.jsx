@@ -6,6 +6,8 @@ import {
   SearchOutlined,
   FavoriteBorderOutlined,
 } from "@material-ui/icons";
+// import { useDispatch, useSelector } from "react-redux";
+// import { addToCart } from "../redux/cartRedux"
 
 const Info = styled.div`
   opacity: 0;
@@ -70,6 +72,13 @@ const Icon = styled.div`
 `;
 
 const Product = ({ item }) => {
+  // const cartItem = useSelector((state) => state.cart)
+  // const dispatch = useDispatch
+
+  // const handleAddToCart = (cartItem) => {
+  //   dispatch(addToCart({...cartItem}))
+  // }
+
   return (
     <Container>
       <Circle />
